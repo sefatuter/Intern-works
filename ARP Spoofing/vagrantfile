@@ -1,0 +1,48 @@
+Vagrant.configure("2") do |config|
+  # Attacker VM
+    config.vm.define "attacker" do |attacker|
+        attacker.vm.box = "generic/alpine38"
+        attacker.vm.network "private_network", ip: "192.168.33.10"
+        attacker.vm.provider "virtualbox" do |vb|
+            vb.name = "attacker"
+        end
+    end
+
+    # Server VM
+    config.vm.define "server" do |server|
+        server.vm.box = "generic/alpine38"
+        server.vm.network "private_network", ip: "192.168.33.20"
+        server.vm.provider "virtualbox" do |vb|
+            vb.name = "server"
+        end
+        # Custom server directory
+        server.vm.synced_folder "server/", "/home/vagrant/server"
+
+        server.vm.provision "shell", inline: <<-SHELL
+            # Update package lists
+            apk update
+
+            # Install Python 3.8 and pip
+            apk add python3
+        SHELL
+    end
+
+    # Victim VM
+    config.vm.define "victim" do |victim|
+        victim.vm.box = "generic/alpine38"
+        victim.vm.network "private_network", ip: "192.168.33.30"
+        victim.vm.provider "virtualbox" do |vb|
+            vb.name = "victim"
+        end
+        # Custom victim directory
+        victim.vm.synced_folder "client/", "/home/vagrant/client"
+
+        victim.vm.provision "shell", inline: <<-SHELL
+            # Update package lists
+            apk update
+
+            # Install Python 3.8 and pip
+            apk add python3
+        SHELL
+    end
+end

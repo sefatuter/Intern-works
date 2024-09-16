@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card text-center shadow-lg p-4" style="width: 22rem;">
+        <div class="card-body">
+            <h1 class="card-title mb-4">Welcome!</h1>
+            <p class="card-text mb-4">Sign in or sign up to access your account.</p>
+            <hr>
+            <a href="{% url 'signin' %}" class="btn btn-primary btn-lg m-2">Sign In</a>
+            <a href="{% url 'signup' %}" class="btn btn-outline-primary btn-lg m-2">Sign Up</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

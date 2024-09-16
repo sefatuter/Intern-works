@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "441988ba-f43f-47cf-be86-3f68c4015e6a",
+		"name": "ToDoAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37514266"
+	},
+	"item": [
+		{
+			"name": "Get Projects",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{api}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/projects",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the JSON response",
+							"let jsonData = pm.response.json();",
+							"",
+							"// Save the \"id\" and \"name\" to environment variables",
+							"pm.environment.set(\"project_id\", jsonData.id);",
+							"pm.environment.set(\"project_name\", jsonData.name);",
+							"",
+							"// Optionally, you can log the variables to verify",
+							"console.log(\"Project ID: \" + pm.environment.get(\"project_id\"));",
+							"console.log(\"Project Name: \" + pm.environment.get(\"project_name\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "$(uuidgen)"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{api}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Shopping List\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/projects",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Project",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "$(uuidgen)"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{api}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Things To Buy\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/projects/{{project_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"projects",
+						"{{project_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the JSON response",
+							"let jsonData = pm.response.json();",
+							"",
+							"// Save the \"id\" and \"content\" to environment variables",
+							"pm.environment.set(\"task_id\", jsonData.id);",
+							"pm.environment.set(\"task_content\", jsonData.content);",
+							"",
+							"// Optionally, you can log the variables to verify",
+							"console.log(\"Task ID: \" + pm.environment.get(\"task_id\"));",
+							"console.log(\"Task Content: \" + pm.environment.get(\"task_content\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "$(uuidgen)"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{api}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\": \"Postmant Test2\", \"project_id\": {{project_id}}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "$(uuidgen)"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{api}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"due_string\": \"tomorrow\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks/{{task_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{api}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/tasks/{{task_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						"{{task_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.test(\"Check Status Code\", function () {",
+					"    var statusCode = pm.response.code;",
+					"    let jsonData = pm.response.json();",
+					"    let stepName = pm.info.requestName;  // This gets the current request name for context.",
+					"",
+					"    if (statusCode === 200) {",
+					"        console.log(stepName + \" | Status code is 200: Request was successful.\");",
+					"    } else if (statusCode === 400) {",
+					"        console.log(stepName + \" | Status code is 400: Bad request error. Response: \" + JSON.stringify(jsonData));",
+					"    } else {",
+					"        console.log(stepName + \" | Unexpected status code: \" + statusCode + \". Response: \" + JSON.stringify(jsonData));",
+					"    }",
+					"    ",
+					"    // Optionally, add Postman tests for assertions",
+					"    pm.expect([200, 400]).to.include(statusCode);  // Passes the test if the status code is 200 or 400.",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.todoist.com/rest/v2",
+			"type": "string"
+		},
+		{
+			"key": "apiKey",
+			"value": "{{api}}",
+			"type": "string"
+		}
+	]
+}

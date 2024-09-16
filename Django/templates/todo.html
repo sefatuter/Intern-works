@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">ToDo App</a>
+    <div class="ml-auto d-flex align-items-center">
+        <span class="mr-3">Hello, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Add ToDo Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    Add New ToDo
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'add_todo' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Add ToDo</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ToDo List -->
+            <div class="card">
+                <div class="card-header">
+                    ToDo List
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for todo in todos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center {% if todo.completed %}list-group-item-success{% endif %}">
+                        <span class="{% if todo.completed %}text-decoration-line-through{% endif %}">{{ todo.text }}</span>
+                        <div>
+                            {% if not todo.completed %}
+                            <a href="{% url 'edit_todo' todo.id %}" class="btn btn-warning btn-sm mr-2">Edit</a>
+                            <a href="{% url 'delete_todo' todo.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            {% endif %}
+                            <a href="{% url 'toggle_complete' todo.id %}" class="btn btn-info btn-sm">
+                                {% if todo.completed %}Mark as Incomplete{% else %}Mark as Complete{% endif %}
+                            </a>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No todos yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
